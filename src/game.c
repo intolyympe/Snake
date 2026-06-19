@@ -154,10 +154,14 @@ void game_run(Game *g)
                             start_game(g);
                         break;
 
-                    case SDLK_UP:    snake_set_dir(&g->snake, DIR_UP);    break;
-                    case SDLK_DOWN:  snake_set_dir(&g->snake, DIR_DOWN);  break;
-                    case SDLK_LEFT:  snake_set_dir(&g->snake, DIR_LEFT);  break;
-                    case SDLK_RIGHT: snake_set_dir(&g->snake, DIR_RIGHT); break;
+                    case SDLK_UP:    case SDLK_z:
+                        snake_set_dir(&g->snake, DIR_UP);    break;
+                    case SDLK_DOWN:  case SDLK_s:
+                        snake_set_dir(&g->snake, DIR_DOWN);  break;
+                    case SDLK_LEFT:  case SDLK_q:
+                        snake_set_dir(&g->snake, DIR_LEFT);  break;
+                    case SDLK_RIGHT: case SDLK_d:
+                        snake_set_dir(&g->snake, DIR_RIGHT); break;
                     default: break;
                 }
             }
