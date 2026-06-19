@@ -31,4 +31,8 @@ typedef struct {
     int           running;
 } Game;
 
+int  game_init(Game *g);
+void game_run(Game *g);
+void game_quit(Game *g);
+
 #endif

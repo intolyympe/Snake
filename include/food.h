@@ -7,4 +7,6 @@ typedef struct {
     int x, y;
 } Food;
 
+void food_spawn(Food *f, const Snake *s, int grid_w, int grid_h);
+
 #endif
