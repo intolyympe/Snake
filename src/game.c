@@ -4,12 +4,12 @@
 #include <time.h>
 
 /* Couleurs */
-#define COL_BG        0x0f, 0x0f, 0x1a, 0xff
-#define COL_GRID      0x1a, 0x1a, 0x2e, 0xff
-#define COL_HEAD      0x00, 0xe6, 0x76, 0xff
-#define COL_BODY      0x00, 0x99, 0x4d, 0xff
-#define COL_FOOD      0xff, 0x4d, 0x4d, 0xff
-#define COL_OVERLAY   0x00, 0x00, 0x00, 0xb0
+#define COL_BG 0x0f, 0x0f, 0x1a, 0xff
+#define COL_GRID 0x1a, 0x1a, 0x2e, 0xff
+#define COL_HEAD 0x00, 0xe6, 0x76, 0xff
+#define COL_BODY 0x00, 0x99, 0x4d, 0xff
+#define COL_FOOD 0xff, 0x4d, 0x4d, 0xff
+#define COL_OVERLAY 0x00, 0x00, 0x00, 0xb0
 
 static void set_color(SDL_Renderer *r, Uint8 R, Uint8 G, Uint8 B, Uint8 A)
 {
@@ -20,7 +20,8 @@ int game_init(Game *g)
 {
     srand((unsigned)time(NULL));
 
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+    if (SDL_Init(SDL_INIT_VIDEO) != 0)
+    {
         fprintf(stderr, "SDL_Init: %s\n", SDL_GetError());
         return 0;
     }
@@ -29,7 +30,8 @@ int game_init(Game *g)
         WINDOW_TITLE,
         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
         WINDOW_W, WINDOW_H, 0);
-    if (!g->window) {
+    if (!g->window)
+    {
         fprintf(stderr, "SDL_CreateWindow: %s\n", SDL_GetError());
         return 0;
     }
@@ -37,24 +39,27 @@ int game_init(Game *g)
     g->renderer = SDL_CreateRenderer(
         g->window, -1,
         SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (!g->renderer) {
+    if (!g->renderer)
+    {
         fprintf(stderr, "SDL_CreateRenderer: %s\n", SDL_GetError());
         return 0;
     }
 
     SDL_SetRenderDrawBlendMode(g->renderer, SDL_BLENDMODE_BLEND);
 
-    g->state   = STATE_MENU;
-    g->score   = 0;
-    g->best    = 0;
+    g->state = STATE_MENU;
+    g->score = 0;
+    g->best = 0;
     g->running = 1;
     return 1;
 }
 
 void game_quit(Game *g)
 {
-    if (g->renderer) SDL_DestroyRenderer(g->renderer);
-    if (g->window)   SDL_DestroyWindow(g->window);
+    if (g->renderer)
+        SDL_DestroyRenderer(g->renderer);
+    if (g->window)
+        SDL_DestroyWindow(g->window);
     SDL_Quit();
 }
 
@@ -64,8 +69,7 @@ static void draw_cell(SDL_Renderer *r, int x, int y)
         x * CELL_SIZE + 1,
         y * CELL_SIZE + 1,
         CELL_SIZE - 2,
-        CELL_SIZE - 2
-    };
+        CELL_SIZE - 2};
     SDL_RenderFillRect(r, &rect);
 }
 
@@ -126,9 +130,9 @@ static void start_game(Game *g)
 {
     snake_init(&g->snake, GRID_W, GRID_H);
     food_spawn(&g->food, &g->snake, GRID_W, GRID_H);
-    g->score     = 0;
+    g->score = 0;
     g->last_tick = SDL_GetTicks();
-    g->state     = STATE_PLAYING;
+    g->state = STATE_PLAYING;
     update_title(g);
 }
 
@@ -136,53 +140,79 @@ void game_run(Game *g)
 {
     render_overlay(g, "SNAKE — Appuie sur ENTREE");
 
-    while (g->running) {
+    while (g->running)
+    {
         SDL_Event e;
-        while (SDL_PollEvent(&e)) {
-            if (e.type == SDL_QUIT) {
+        while (SDL_PollEvent(&e))
+        {
+            if (e.type == SDL_QUIT)
+            {
                 g->running = 0;
                 break;
             }
 
-            if (e.type == SDL_KEYDOWN) {
-                switch (e.key.keysym.sym) {
-                    case SDLK_ESCAPE: g->running = 0; break;
+            if (e.type == SDL_KEYDOWN)
+            {
+                switch (e.key.keysym.sym)
+                {
+                case SDLK_ESCAPE:
+                    g->running = 0;
+                    break;
 
-                    case SDLK_RETURN:
-                    case SDLK_SPACE:
-                        if (g->state != STATE_PLAYING)
-                            start_game(g);
-                        break;
+                case SDLK_RETURN:
+                case SDLK_SPACE:
+                    if (g->state != STATE_PLAYING)
+                        start_game(g);
+                    break;
 
-                    case SDLK_UP:    case SDLK_z: case SDLK_w:
-                        snake_set_dir(&g->snake, DIR_UP);    break;
-                    case SDLK_DOWN:  case SDLK_s:
-                        snake_set_dir(&g->snake, DIR_DOWN);  break;
-                    case SDLK_LEFT:  case SDLK_q: case SDLK_a:
-                        snake_set_dir(&g->snake, DIR_LEFT);  break;
-                    case SDLK_RIGHT: case SDLK_d:
-                        snake_set_dir(&g->snake, DIR_RIGHT); break;
-                    default: break;
+                case SDLK_UP:
+                case SDLK_z:
+                case SDLK_w:
+                    snake_set_dir(&g->snake, DIR_UP);
+                    break;
+                case SDLK_DOWN:
+                case SDLK_s:
+                    snake_set_dir(&g->snake, DIR_DOWN);
+                    break;
+                case SDLK_LEFT:
+                case SDLK_q:
+                case SDLK_a:
+                    snake_set_dir(&g->snake, DIR_LEFT);
+                    break;
+                case SDLK_RIGHT:
+                case SDLK_d:
+                    snake_set_dir(&g->snake, DIR_RIGHT);
+                    break;
+                default:
+                    break;
                 }
             }
         }
 
-        if (g->state == STATE_PLAYING) {
+        if (g->state == STATE_PLAYING)
+        {
             Uint32 now = SDL_GetTicks();
             Uint32 speed = (Uint32)(TICK_MS - (g->score * 2));
-            if (speed < 50) speed = 50;
+            if (speed < 50)
+                speed = 50;
 
-            if (now - g->last_tick >= speed) {
+            if (now - g->last_tick >= speed)
+            {
                 g->last_tick = now;
 
                 int dead = snake_move(&g->snake, GRID_W, GRID_H);
-                if (dead) {
-                    if (g->score > g->best) g->best = g->score;
+                if (dead)
+                {
+                    if (g->score > g->best)
+                        g->best = g->score;
                     g->state = STATE_GAME_OVER;
                     render_playing(g);
                     render_overlay(g, "GAME OVER — ENTREE pour rejouer");
-                } else {
-                    if (snake_eats(&g->snake, g->food.x, g->food.y)) {
+                }
+                else
+                {
+                    if (snake_eats(&g->snake, g->food.x, g->food.y))
+                    {
                         g->score++;
                         if (g->snake.length < SNAKE_MAX)
                             g->snake.length++;
@@ -191,7 +221,9 @@ void game_run(Game *g)
                     }
                     render_playing(g);
                 }
-            } else {
+            }
+            else
+            {
                 SDL_Delay(1);
             }
         }
