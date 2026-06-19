@@ -1,6 +1,6 @@
 CC      = gcc
 CFLAGS  = -std=c11 -Wall -Wextra -Wpedantic -O2 -Iinclude
-LDFLAGS = -lSDL2
+LDFLAGS = -lSDL2 -lSDL2_ttf
 
 SRC     = src/main.c src/game.c src/snake.c src/food.c
 OBJ     = $(SRC:.c=.o)
