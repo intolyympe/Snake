@@ -154,11 +154,11 @@ void game_run(Game *g)
                             start_game(g);
                         break;
 
-                    case SDLK_UP:    case SDLK_z:
+                    case SDLK_UP:    case SDLK_z: case SDLK_w:
                         snake_set_dir(&g->snake, DIR_UP);    break;
                     case SDLK_DOWN:  case SDLK_s:
                         snake_set_dir(&g->snake, DIR_DOWN);  break;
-                    case SDLK_LEFT:  case SDLK_q:
+                    case SDLK_LEFT:  case SDLK_q: case SDLK_a:
                         snake_set_dir(&g->snake, DIR_LEFT);  break;
                     case SDLK_RIGHT: case SDLK_d:
                         snake_set_dir(&g->snake, DIR_RIGHT); break;
