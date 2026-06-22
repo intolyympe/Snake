@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include "snake.h"
 #include "food.h"
 
@@ -12,6 +13,8 @@
 #define WINDOW_W (CELL_SIZE * GRID_W)
 #define WINDOW_H (CELL_SIZE * GRID_H)
 #define TICK_MS 120
+#define LEADERBOARD_SIZE 5
+#define FONT_PATH "assets/font.ttf"
 
 typedef enum
 {
@@ -24,11 +27,14 @@ typedef struct
 {
     SDL_Window *window;
     SDL_Renderer *renderer;
+    TTF_Font *font_lg;
+    TTF_Font *font_md;
+    TTF_Font *font_sm;
     Snake snake;
     Food food;
     GameState state;
     int score;
-    int best;
+    int scores[LEADERBOARD_SIZE];
     Uint32 last_tick;
     int running;
 } Game;
